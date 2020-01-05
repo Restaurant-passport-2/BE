@@ -9,12 +9,13 @@ General:
 
 - [NodeJS](https://nodejs.org/en/) backend.
 - [ExpressJS](https://expressjs.com/) framework for the API.
+- [express-session](https://www.npmjs.com/package/express-session) session middleware for managing user state across requests.
 
 Security
 
 - [CORS](https://www.npmjs.com/package/cors) for Cross-Origin configuration.
 - [helmet](https://www.npmjs.com/package/helmet) for basic security adjustments to the server.
-- [JSON Web Tokens](https://www.npmjs.com/package/jsonwebtoken) for securely transmitting data between client-server
+- [passport](http://www.passportjs.org/) for integrating authentication strategies.
 - [bcrypt](https://www.npmjs.com/package/bcrypt) for encrypting/hashing sensitive user data.
 
 Testing:
