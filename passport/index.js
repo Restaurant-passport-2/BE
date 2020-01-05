@@ -4,5 +4,5 @@ const path = require("path");
 
 const normalizedPath = path.join(__dirname, "strategy").normalize();
 fs.readdirSync(normalizedPath).forEach(function(file) {
-  require(`${normalizedPath}\\${file}`);
+  require(`${normalizedPath}/${file}`);
 });
