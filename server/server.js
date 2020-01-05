@@ -1,5 +1,10 @@
 require("dotenv").config();
 const express = require("express");
+const session = require("express-session");
+
+const passport = require("passport");
+require("../passport/index");
+
 const helmet = require("helmet");
 const cors = require("cors");
 
@@ -8,6 +13,23 @@ const apiRouter = require("../api/apiRouter");
 const server = express();
 
 server.use(express.json());
+
+server.use(
+  session({
+    name: "_rp2",
+    secret: process.env.SESSION_SECRET,
+    cookie: {
+      maxAge: 1 * 3 * 60 * 60 * 1000,
+      secure: false,
+    },
+    httpOnly: true,
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+
+server.use(passport.initialize());
+server.use(passport.session());
 
 server.use(helmet());
 
