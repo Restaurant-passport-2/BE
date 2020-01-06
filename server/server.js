@@ -33,10 +33,10 @@ server.use(passport.session());
 
 server.use(helmet());
 
-var whitelist = ["http://localhost:3000", "http://example.com"];
+var whitelist = ["http://localhost:3000"];
 var corsOptions = {
   origin: function(origin, callback) {
-    if (whitelist.indexOf(origin) !== -1) {
+    if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
