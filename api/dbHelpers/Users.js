@@ -8,12 +8,12 @@ module.exports = {
   remove,
 };
 
-function find(id) {
-  if (id) {
+function find(user_id) {
+  if (user_id) {
     return knex
       .select("*")
       .from("user_account")
-      .where({ id: id })
+      .where({ user_id: user_id })
       .first();
   } else {
     return knex.select("*").from("user_account");
@@ -29,17 +29,17 @@ function findByUsername(username) {
 }
 
 function insert(user) {
-  return knex("user_account").insert(user, "id");
+  return knex("user_account").insert(user, "user_id");
 }
 
-function update(id, changes) {
+function update(user_id, changes) {
   return knex("user_account")
-    .where({ id: id })
+    .where({ user_id: user_id })
     .update(changes);
 }
 
-function remove(id) {
+function remove(user_id) {
   return knex("user_account")
-    .where({ id: id })
+    .where({ user_id: user_id })
     .del();
 }
