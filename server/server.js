@@ -35,6 +35,7 @@ server.use(helmet());
 
 var whitelist = ["http://localhost:3000"];
 var corsOptions = {
+  credentials: true,
   origin: function(origin, callback) {
     if (whitelist.indexOf(origin) !== -1 || !origin) {
       callback(null, true);
