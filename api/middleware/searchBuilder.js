@@ -1,4 +1,5 @@
 const userDB = require("../dbHelpers/Users");
+const { internalError } = require("./middleware");
 
 module.exports = function searchBuilder(req, res, next) {
   userDB
