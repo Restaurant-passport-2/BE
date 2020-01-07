@@ -3,7 +3,7 @@ const passport = require("../dbHelpers/Passport");
 const { authenticator, validateEntry, internalError } = require("../middleware/middleware");
 
 /**
- * @api {get} /passport User passport
+ * @api {get} /passport Get user passport
  * @apiName GetPassport
  * @apiGroup Passport
  *
@@ -18,9 +18,19 @@ const { authenticator, validateEntry, internalError } = require("../middleware/m
  *      "city": "Santa Clarita",
  *      "personal_rating": 5,
  *      "notes": "Enjoyed the atmosphere and dining experience. Pizza was great.",
- *      "stamped": true
- *    }
- *    ... { more entries }
+ *      "stamped": true,
+ *      "restaurant": {
+ *        "restaurant_id": 1,
+ *        "name": "Chi Chi's Pizza",
+ *         "street_address": "23043 Soledad Canyon Rd",
+ *        "city": "Santa Clarita",
+ *        "state": "CA",
+ *        "zipcode": "91350",
+ *        "phone_number": "(661) 259-4040",
+ *        "website_url": "No website listed",
+ *        "public_rating": 0
+ *      },
+ *    ... { more entries if they exist }
  *  ]
  * }
  *
@@ -52,12 +62,23 @@ router.get("/", authenticator, function(req, res) {
 });
 
 /**
- * @api {post} /passport/entry Create passport entry
+ * @api {post} /passport/entry Create a passport entry
  * @apiName PostEntry
  * @apiGroup PassportEntry
  *
+ * @apiParam {String} name Name of restaurant.
+ * @apiParam {String} street_address Street address.
+ * @apiParam {String} city City name.
+ * @apiParam {String} state State (2 Char abrev): CA, NV, AZ, etc.
+ * @apiParam {String} zipcode Restaurant zipcode.
+ * @apiParam {String} [phone_number] Business phone number.
+ * @apiParam {String} [website_url] Restaurant's website.
+ * @apiParam {Boolean} [stamped] Whether you have been there or not.
+ * @apiParam {Integer} [personal_rating] Rating between 1-5.
+ * @apiParam {String} notes Notes about the restaurant.
+ *
  * @apiSuccessExample Success-Response:
- *    HTTP/1.1 200 OK
+ *    HTTP/1.1 201 OK
  * {
  *  "entries": [
  *    {
@@ -67,17 +88,36 @@ router.get("/", authenticator, function(req, res) {
  *      "city": "Santa Clarita",
  *      "personal_rating": 5,
  *      "notes": "Enjoyed the atmosphere and dining experience. Pizza was great.",
- *      "stamped": true
- *    }
+ *      "stamped": true,
+ *      "restaurant": {
+ *        "restaurant_id": 1,
+ *        "name": "Chi Chi's Pizza",
+ *         "street_address": "23043 Soledad Canyon Rd",
+ *        "city": "Santa Clarita",
+ *        "state": "CA",
+ *        "zipcode": "91350",
+ *        "phone_number": "(661) 259-4040",
+ *        "website_url": "No website listed",
+ *        "public_rating": 0
+ *      },
+ *    ... { more entries if they exist }
  *  ]
  * }
- *+
+ *
  * @apiError (401 Unauthorized) {json} Unauthorized Missing or invalid token in authorization header.
  *
  * @apiErrorExample {json} 401 Error-Response
  *    HTTP/1.1 401 Unauthorized
  *    {
  *      "error": "Token invalid"
+ *    }
+ *
+ * @apiError (409 Conflict) {json} Resource already exists
+ *
+ * @apiErrorExample {json} 409 Error-Response
+ *    HTTP/1.1 401 Conflict
+ *    {
+ *       "message": "Restaurant already exists in another entry"
  *    }
  *
  * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
