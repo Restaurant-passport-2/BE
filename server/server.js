@@ -10,19 +10,19 @@ const server = express();
 server.use(express.json());
 
 server.use(helmet());
-const whitelist = process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : [];
-const corsOptions = {
-  origin: function(origin, callback) {
-    //Check for whitelisted origin or self origin.
-    if (whitelist.indexOf(origin) !== -1 || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
+// const whitelist = process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : [];
+// const corsOptions = {
+//   origin: function(origin, callback) {
+//     //Check for whitelisted origin or self origin.
+//     if (whitelist.indexOf(origin) !== -1 || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+// };
 
-server.use(cors(corsOptions));
+server.use(cors());
 
 server.use("/api", apiRouter);
 
