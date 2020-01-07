@@ -14,7 +14,7 @@ function find(user_id) {
       .select("*")
       .from("user_account")
       .where({ user_id: user_id })
-      .first();
+      .first(); //I don't want an array with 1 index thanks.
   } else {
     return knex.select("*").from("user_account");
   }
@@ -25,7 +25,7 @@ function findByUsername(username) {
     .select("*")
     .from("user_account")
     .where({ username: username })
-    .first();
+    .first(); //See above comment...
 }
 
 function insert(user) {
