@@ -1,8 +1,9 @@
 module.exports = function databaseError(err) {
-  return {
-    error: {
-      message: err.detail,
-      constraint: err.constraint,
-    },
-  };
+  if (process.env.NODE_ENV === "development") {
+    return {
+      err,
+    };
+  } else {
+    return { error: "An error occurred." };
+  }
 };
