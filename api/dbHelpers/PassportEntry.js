@@ -12,30 +12,48 @@ function find(passport_id) {
   return knex
     .select("*")
     .from("passport_entry")
-    .where({ passport_id: passport_id });
+    .where({ passport_id: passport_id })
+    .then(async (entries) => {
+      if (entries.length > 0) {
+        restaurantIds = [];
+        entries.forEach((entry) => {
+          restaurantIds.push(entry.restaurant_id);
+        });
+        return await knex
+          .select("*")
+          .from("restaurant")
+          .whereIn("restaurant_id", restaurantIds)
+          .then((restaurants) => {
+            return entries.map((entry, idx) => {
+              return { ...entry, restaurant: restaurants[idx] };
+            });
+          });
+      }
+    });
 }
 
-function insert(passport_entry) {
+async function insert(passport_entry) {
   //Data for new passport_entry table row - Needs restaurant_id which is supplied later in the function
   const entry = {
     passport_id: passport_entry.passport_id,
     city: passport_entry.city,
-    personal_rating: passport_entry.personal_rating,
+    personal_rating: passport_entry.personal_rating ? Number(passport_entry.personal_rating) : 0,
     notes: passport_entry.notes,
-    stamped: passport_entry.stamped, //Optional
+    stamped: passport_entry.stamped ? 1 : 0, //Optional
   };
 
   //Find if the restaurant already exists
-  return restaurant.findByAddress(passport_entry.street_address).then((foundRestaurant) => {
+  return await restaurant.findByAddress(passport_entry.street_address).then(async (foundRestaurant) => {
     if (foundRestaurant) {
       //Restaurant already exists, so use it's ID as reference for restaurant_id to be used in new passport_entry row
       entry.restaurant_id = foundRestaurant.restaurant_id;
 
       //Return final knex call to be resolved in route handler
-      return knex("passport_entry").insert(entry, "passport_entry_id");
+      return await knex("passport_entry").insert(entry, "passport_entry_id");
     } else {
       //No existing restaurants, so we need to insert one into the restaurant table
       //This will be the object to hold new restaurant
+
       const newRestaurant = {
         name: passport_entry.name,
         street_address: passport_entry.street_address,
@@ -47,12 +65,11 @@ function insert(passport_entry) {
       };
 
       // Insert into restaurant table, then take the new restaurant ID and set it into entry to be finally inserted into passport_entry table
-      return restaurant.insert(newRestaurant).then((newRestaurantId) => {
-        entry.restaurant_id = newRestaurantId;
+      const newRestaurantId = await restaurant.insert(newRestaurant);
+      entry.restaurant_id = newRestaurantId[0];
 
-        //Return final knex call to be resolved in route handler
-        return knex("passport_entry").insert(entry, "passport_entry_id");
-      });
+      //Return final knex call to be resolved in route handler
+      return knex("passport_entry").insert(entry, "passport_entry_id");
     }
   });
 }
