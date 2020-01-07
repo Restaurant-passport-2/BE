@@ -4,6 +4,6 @@ module.exports = function validateSignup(req, res, next) {
   if (name && email && username && password && city && zipcode) {
     next();
   } else {
-    res.status(400).json({ message: "Please provide email, username, password, city, and zipcode" });
+    res.status(400).json({ message: "Please provide name, email, username, password, city, and zipcode" });
   }
 };
