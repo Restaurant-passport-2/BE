@@ -13,9 +13,16 @@ const { validateLogin, validateSignup, internalError, signToken } = require("../
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- *    {
- *      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
- *    }
+ * {
+ *   "user": {
+ *   "name": "demo",
+ *   "username": "demo",
+ *   "email": "demo@email.com",
+ *   "city": "Demo City",
+ *   "zipcode": "12345"
+ * },
+ *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
+ * }
  *
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing username or password parameters in request.
@@ -55,7 +62,16 @@ router.post("/login", validateLogin, function(req, res) {
             //Generate token on successful login.
             if (isAuthenticated) {
               const token = signToken({ sub: user.user_id });
-              res.status(200).json({ token: token });
+              res.status(200).json({
+                user: {
+                  name: user.name,
+                  username: user.username,
+                  email: user.email,
+                  city: user.city,
+                  zipcode: user.zipcode,
+                },
+                token: token,
+              });
             } else {
               res.status(401).json({ message: "Invalid username/password combination" });
             }
@@ -86,9 +102,16 @@ router.post("/login", validateLogin, function(req, res) {
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- *    {
- *      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c"
- *    }
+ * {
+ *   "user": {
+ *   "name": "demo",
+ *   "username": "demo",
+ *   "email": "demo@email.com",
+ *   "city": "Demo City",
+ *   "zipcode": "12345"
+ * },
+ *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
+ * }
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing a required parameter for registration.
  *
@@ -106,6 +129,7 @@ router.post("/login", validateLogin, function(req, res) {
  *      "message": "Server error"
  *    }
  */
+//TODO Add error for account already existing.
 router.post("/signup", validateSignup, function(req, res) {
   //Create a user object with data from request body.
   const user = ({ name, email, username, password, city, zipcode } = req.user);
@@ -122,7 +146,16 @@ router.post("/signup", validateSignup, function(req, res) {
         .then((user_id) => {
           //Return a login token so we don't have to login after registering.
           const token = signToken({ sub: user_id[0] });
-          res.status(200).json({ token: token });
+          res.status(200).json({
+            user: {
+              name: user.name,
+              username: user.username,
+              email: user.email,
+              city: user.city,
+              zipcode: user.zipcode,
+            },
+            token: token,
+          });
         })
         .catch((err) => {
           res.status(500).json(internalError(err));
