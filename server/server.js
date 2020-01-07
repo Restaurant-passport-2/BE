@@ -10,9 +10,7 @@ const server = express();
 server.use(express.json());
 
 server.use(helmet());
-console.log(process.env.NODE_ENV);
 const whitelist = process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : [];
-console.log(whitelist);
 const corsOptions = {
   origin: function(origin, callback) {
     //Check for whitelisted origin or self origin.
