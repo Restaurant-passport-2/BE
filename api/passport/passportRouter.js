@@ -54,7 +54,11 @@ router.get("/", authenticator, function(req, res) {
   passport
     .find(req.token.sub)
     .then((passportData) => {
-      res.status(200).json({ entries: passportData.entries });
+      if (passportData.entries) {
+        res.status(200).json({ entries: passportData.entries });
+      } else {
+        res.status(200).json({ entries: [] });
+      }
     })
     .catch((err) => {
       res.status(500).json(internalError(err));
@@ -151,7 +155,7 @@ router.post("/entry", authenticator, validateEntry, function(req, res) {
       passport
         .find(req.token.sub)
         .then((updatedPassport) => {
-          res.status(201).json(updatedPassport);
+          res.status(201).json({ entries: updatedPassport.entries });
         })
         .catch((err) => {
           res.status(500).json(internalError(err));
@@ -175,9 +179,20 @@ router.delete("/entry/:entry_id", authenticator, function(req, res) {
     .remove(req.token.sub, req.params.entry_id)
     .then((result) => {
       if (result > 0) {
-        res.status(200).json(result);
+        passport
+          .find(req.token.sub)
+          .then((passportData) => {
+            if (passportData.entries) {
+              res.status(200).json({ entries: passportData.entries });
+            } else {
+              res.status(200).json({ entries: [] });
+            }
+          })
+          .catch((err) => {
+            res.status(500).json(internalError(err));
+          });
       } else {
-        res.status(404).json({ message: "Resource not found" });
+        res.status(404).json({ error: "Resource not found" });
       }
     })
     .catch((err) => {
