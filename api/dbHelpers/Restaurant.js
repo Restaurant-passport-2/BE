@@ -1,40 +1,17 @@
 const knex = require("../../database/dbConnection");
 
 module.exports = {
-  find,
-  findByAddress,
-  findByCity,
+  findByUserId,
   insert,
   update,
   remove,
 };
 
-function find(restaurant_id) {
-  if (restaurant_id) {
-    return knex
-      .select("*")
-      .from("restaurant")
-      .where({ restaurant_id: restaurant_id })
-      .first();
-  } else {
-    return knex.select("*").from("restaurant");
-  }
-}
-
-function findByAddress(street_address) {
+function findByUserId(user_id) {
   return knex
     .select("*")
     .from("restaurant")
-    .where({ street_address: street_address })
-    .first();
-}
-
-function findByCity(city) {
-  return knex
-    .select("*")
-    .from("restaurant")
-    .where({ city: city })
-    .first();
+    .where({ user_id: user_id });
 }
 
 function insert(restaurant) {

@@ -1,14 +1,14 @@
 const knex = require("../../database/dbConnection");
 
 module.exports = {
-  findOne,
+  find,
   findByUsername,
   insert,
-  // update,
-  // remove,
+  update,
+  remove,
 };
 
-function findOne(user_id) {
+function find(user_id) {
   return knex
     .select("*")
     .from("user_account")
@@ -28,14 +28,14 @@ function insert(user) {
   return knex("user_account").insert(user, "user_id");
 }
 
-// function update(user_id, changes) {
-//   return knex("user_account")
-//     .where({ user_id: user_id })
-//     .update(changes);
-// }
+function update(user_id, changes) {
+  return knex("user_account")
+    .where({ user_id: user_id })
+    .update(changes);
+}
 
-// function remove(user_id) {
-//   return knex("user_account")
-//     .where({ user_id: user_id })
-//     .del();
-// }
+function remove(user_id) {
+  return knex("user_account")
+    .where({ user_id: user_id })
+    .del();
+}

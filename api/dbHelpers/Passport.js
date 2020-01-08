@@ -1,39 +1,20 @@
-const knex = require("../../database/dbConnection");
-const entry = require("./PassportEntry");
+const user = require("./User");
+const restaurant = require("./Restaurant");
 
 module.exports = {
   find,
-  insert,
-  remove,
-  entry,
+  // insert,
+  user,
+  restaurant,
 };
 
-function find(user_id) {
-  return knex
-    .select("*")
-    .from("passport")
-    .where({ user_id: user_id })
-    .first()
-    .then((passport) => {
-      if (passport) {
-        //passport is an object with user_id and passport_id
-        return entry.find(passport.passport_id).then((passportData) => {
-          //passportData is an array of objects
-          return {
-            ppid: passport.passport_id,
-            entries: passportData,
-          };
-        });
-      }
-    });
-}
-
-function insert(passport) {
-  return knex("passport").insert(passport);
-}
-
-function remove(user_id) {
-  return knex("passport")
-    .where({ user_id: user_id })
-    .del();
+async function find(user_id) {
+  const restaurants = await restaurant.findByUserId(user_id);
+  if (restaurants.length > 0) {
+    return {
+      entries: restaurants,
+    };
+  } else {
+    return { entries: [] };
+  }
 }
