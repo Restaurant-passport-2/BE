@@ -1,8 +1,8 @@
 const router = require("express").Router();
-const userDB = require("../dbHelpers/Users");
-const passport = require("../dbHelpers/Passport");
 const bcrypt = require("bcrypt");
 const { validateLogin, validateSignup, internalError, signToken } = require("../middleware/middleware");
+const User = require("../dbHelpers/User");
+const Passport = require("../dbHelpers/Passport");
 
 /**
  * @api {post} /auth/login User login
@@ -14,27 +14,31 @@ const { validateLogin, validateSignup, internalError, signToken } = require("../
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *   "user": {
- *   "name": "demo",
- *   "username": "demo",
- *   "email": "demo@email.com",
- *   "city": "Demo City",
- *   "zipcode": "12345",
- *   "passport": [
- *      {
- *        "passport_entry_id": 1,
- *        "passport_id": 1,
- *        "restaurant_id": 1,
- *        "city": "Santa Clarita",
- *        "personal_rating": 5,
- *        "notes": "Enjoyed the atmosphere and dining experience. Pizza was great.",
- *        "stamped": true
- *      }
- *   ]
- * },
- *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
- * }
+  {
+    "user": {
+      "name": "Test User",
+      "username": "test",
+      "email": "test@email.com",
+      "city": "Fake City",
+      "zipcode": "12345",
+      "passport": [
+        {
+          "restaurant_id": 1,
+          "name": "Crusty Crab",
+          "street_address": "1146 Nagoya Way",
+          "city": "San Pedro",
+          "state": "CA",
+          "zipcode": "90731",
+          "phone_number": "(310) 519-9058",
+          "website_url": "No website listed",
+          "personal_rating": 4,
+          "notes": "Some notes about this restaurant",
+          "stamped": true
+        }
+      ]
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODUyNDM2MywiZXhwIjoxNTc4NTM1MTYzfQ.gD7EZeNhypJZ5GA7Ag2HbHyWtLRo8mJ3-mqEGFVGfZA"
+  }
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing username or password parameters in request.
  *
@@ -63,32 +67,29 @@ router.post("/login", validateLogin, function(req, res) {
   const { username, password } = req.user;
 
   //Find user
-  userDB
-    .findByUsername(username)
-    .then((foundUser) => {
-      if (foundUser) {
+  User.findByUsername(username)
+    .then((user) => {
+      if (user) {
         //Check password
         bcrypt
-          .compare(password, foundUser.password)
+          .compare(password, user.password)
           .then((isAuthenticated) => {
             if (isAuthenticated) {
               //Get user passport
-              passport
-                .find(foundUser.user_id)
-                .then((userPassport) => {
+              Passport.find(user.user_id)
+                .then((passport) => {
                   //Generate auth token
-                  const token = signToken({ sub: foundUser.user_id, ppid: userPassport.ppid });
+                  const token = signToken({ sub: user.user_id });
 
                   //Return user info + passport & token
                   res.status(200).json({
                     user: {
-                      name: foundUser.name,
-                      username: foundUser.username,
-                      email: foundUser.email,
-                      city: foundUser.city,
-                      zipcode: foundUser.zipcode,
-                      //Handle users with no passport entries
-                      passport: userPassport.entries ? userPassport.entries : [],
+                      name: user.name,
+                      username: user.username,
+                      email: user.email,
+                      city: user.city,
+                      zipcode: user.zipcode,
+                      passport: passport.entries,
                     },
                     token: token,
                   });
@@ -126,17 +127,17 @@ router.post("/login", validateLogin, function(req, res) {
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *   "user": {
- *   "name": "demo",
- *   "username": "demo",
- *   "email": "demo@email.com",
- *   "city": "Demo City",
- *   "zipcode": "12345",
- *   "passport": []
- * },
- *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
- * }
+  {
+    "user": {
+      "name": "Chuck Norris",
+      "username": "loneranger",
+      "email": "chuck@norris.com",
+      "city": "Chuck City",
+      "zipcode": "12345",
+      "passport": []
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTU3ODUyNDQ2NiwiZXhwIjoxNTc4NTM1MjY2fQ.g1Xc0Gk_ebQmBjFKGMSvFTEIc99YeBUUXleI2vMK8Xw"
+  }
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing a required parameter for registration.
  *
@@ -163,41 +164,34 @@ router.post("/login", validateLogin, function(req, res) {
  */
 router.post("/signup", validateSignup, function(req, res) {
   //Get required info from request
-  const user = ({ name, email, username, password, city, zipcode } = req.user);
+  const userInfo = ({ name, email, username, password, city, zipcode } = req.user);
 
   //Hash password before inserting user into database.
   bcrypt
-    .hash(user.password, Number(process.env.HASH_SALT_ROUNDS))
+    .hash(userInfo.password, Number(process.env.HASH_SALT_ROUNDS))
     .then((hash) => {
-      user.password = hash; //Update user object with hashed password.
+      userInfo.password = hash; //Update user object with hashed password.
 
       //Add user to database.
-      userDB
-        .insert(user)
+      User.insert(userInfo)
         .then((user_id) => {
-          //User has been added, lets make them a passport now.
-          passport
-            .insert({ user_id: user_id[0] })
-            .then((passport_id) => {
-              //Generate a login token so we don't have to login after registering.
-              const token = signToken({ sub: user_id[0], ppid: passport_id[0] });
+          user_id = user_id[0]; //Get rid of 1 index array
 
-              //Return user info and auth token
-              res.status(200).json({
-                user: {
-                  name: user.name,
-                  username: user.username,
-                  email: user.email,
-                  city: user.city,
-                  zipcode: user.zipcode,
-                  passport: [],
-                },
-                token: token,
-              });
-            })
-            .catch((err) => {
-              res.status(500).json(internalError(err));
-            });
+          //Generate a login token so we don't have to login after registering.
+          const token = signToken({ sub: user_id });
+
+          //Return user info and auth token
+          res.status(200).json({
+            user: {
+              name: userInfo.name,
+              username: userInfo.username,
+              email: userInfo.email,
+              city: userInfo.city,
+              zipcode: userInfo.zipcode,
+              passport: [],
+            },
+            token: token,
+          });
         })
         .catch((err) => {
           if (err.code === "23505") {

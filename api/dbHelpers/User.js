@@ -9,15 +9,11 @@ module.exports = {
 };
 
 function find(user_id) {
-  if (user_id) {
-    return knex
-      .select("*")
-      .from("user_account")
-      .where({ user_id: user_id })
-      .first(); //I don't want an array with 1 index thanks.
-  } else {
-    return knex.select("*").from("user_account");
-  }
+  return knex
+    .select("*")
+    .from("user_account")
+    .where({ user_id: user_id })
+    .first();
 }
 
 function findByUsername(username) {
@@ -25,7 +21,7 @@ function findByUsername(username) {
     .select("*")
     .from("user_account")
     .where({ username: username })
-    .first(); //See above comment...
+    .first();
 }
 
 function insert(user) {

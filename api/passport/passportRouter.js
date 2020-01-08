@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const passport = require("../dbHelpers/Passport");
+const Passport = require("../dbHelpers/Passport");
 const { authenticator, validateEntry, internalError } = require("../middleware/middleware");
 
 /**
@@ -9,28 +9,23 @@ const { authenticator, validateEntry, internalError } = require("../middleware/m
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *  "entries": [
- *      {
- *        "passport_entry_id": 4,
- *        "restaurant_id": 3,
- *        "city": "Santa Clarita",
- *        "personal_rating": 5,
- *        "notes": "abc",
- *        "stamped": false,
- *        "restaurant": {
- *          "name": "Tomato Joe's Pizza Express",
- *          "street_address": "121233 McBean Pkwy",
- *          "city": "Santa Clarita",
- *          "state": "CA",
- *          "zipcode": "91350",
- *          "phone_number": "No phone number listed",
- *          "website_url": "No website listed"
- *        }
- *      }
- *      ... { more entries if available}
- *    ]
- * }
+  {
+    "entries": [
+      {
+        "restaurant_id": 1,
+        "name": "Crusty Crab",
+        "street_address": "1146 Nagoya Way",
+        "city": "San Pedro",
+        "state": "CA",
+        "zipcode": "90731",
+        "phone_number": "(310) 519-9058",
+        "website_url": "No website listed",
+        "personal_rating": 4,
+        "notes": "Some notes about this restaurant",
+        "stamped": true
+      }
+    ]
+  }
  *
  * @apiError (401 Unauthorized) {json} Unauthorized Missing or invalid token in authorization header.
  *
@@ -49,14 +44,9 @@ const { authenticator, validateEntry, internalError } = require("../middleware/m
  *    }
  */
 router.get("/", authenticator, function(req, res) {
-  passport
-    .find(req.token.sub)
-    .then((passportData) => {
-      if (passportData.entries) {
-        res.status(200).json({ entries: passportData.entries });
-      } else {
-        res.status(200).json({ entries: [] });
-      }
+  Passport.find(req.token.sub)
+    .then((passport) => {
+      res.status(200).json(passport);
     })
     .catch((err) => {
       res.status(500).json(internalError(err));
@@ -66,7 +56,7 @@ router.get("/", authenticator, function(req, res) {
 /**
  * @api {post} /passport/entry Create a passport entry
  * @apiName PostEntry
- * @apiGroup PassportEntry
+ * @apiGroup Passport
  *
  * @apiParam {String} name Name of restaurant.
  * @apiParam {String} street_address Street address.
@@ -81,28 +71,36 @@ router.get("/", authenticator, function(req, res) {
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 201 OK
- * {
- *  "entries": [
- *      {
- *        "passport_entry_id": 4,
- *        "restaurant_id": 3,
- *        "city": "Santa Clarita",
- *        "personal_rating": 5,
- *        "notes": "abc",
- *        "stamped": false,
- *        "restaurant": {
- *          "name": "Tomato Joe's Pizza Express",
- *          "street_address": "121233 McBean Pkwy",
- *          "city": "Santa Clarita",
- *          "state": "CA",
- *          "zipcode": "91350",
- *          "phone_number": "No phone number listed",
- *          "website_url": "No website listed"
- *        }
- *      }
- *      ... { more entries if available}
- *    ]
- * }
+  {
+    "entries": [
+      {
+        "restaurant_id": 1,
+        "name": "Crusty Crab",
+        "street_address": "1146 Nagoya Way",
+        "city": "San Pedro",
+        "state": "CA",
+        "zipcode": "90731",
+        "phone_number": "(310) 519-9058",
+        "website_url": "No website listed",
+        "personal_rating": 4,
+        "notes": "Some notes about this restaurant",
+        "stamped": true
+      },
+      {
+        "restaurant_id": 2,
+        "name": "A Restaurant Name",
+        "street_address": "123 Road Dr",
+        "city": "Ficticious City",
+        "state": "Some State",
+        "zipcode": "12345",
+        "phone_number": "No phone number listed",
+        "website_url": "No website listed",
+        "personal_rating": 0,
+        "notes": "Best chili dogs ever",
+        "stamped": true
+      }
+    ]
+  }
  *
  * @apiError (401 Unauthorized) {json} Unauthorized Missing or invalid token in authorization header.
  *
@@ -129,7 +127,7 @@ router.get("/", authenticator, function(req, res) {
  *    }
  */
 router.post("/entry", authenticator, validateEntry, function(req, res) {
-  const entry = ({
+  const restaurant = ({
     name,
     street_address,
     city,
@@ -142,20 +140,11 @@ router.post("/entry", authenticator, validateEntry, function(req, res) {
     stamped,
   } = req.body);
 
-  //Set passport id from user token
-  entry.passport_id = req.token.ppid;
+  restaurant.user_id = req.token.sub;
 
-  passport.entry
-    .insert(entry)
-    .then(() => {
-      passport
-        .find(req.token.sub)
-        .then((updatedPassport) => {
-          res.status(201).json({ entries: updatedPassport.entries });
-        })
-        .catch((err) => {
-          res.status(500).json(internalError(err));
-        });
+  Passport.insertEntry(req.token.sub, restaurant)
+    .then((passport) => {
+      res.status(201).json(passport);
     })
     .catch((err) => {
       if (err.code === "23505") {
@@ -166,41 +155,45 @@ router.post("/entry", authenticator, validateEntry, function(req, res) {
     });
 });
 
-router.put("/entry/:entry_id", authenticator, function(req, res) {
-  res.status(200).json(req.params.entry_id);
-});
-
 /**
- * @api {delete} /passport/entry/:id Delete passport entry
- * @apiName DeletePassportEntry
+ * @api {put} /passport/entry/:id Edit passport entry
+ * @apiName PutPassportEntry
  * @apiGroup Passport
  *
- * @apiParam {Integer} id passport entry id to delete.
+ * @apiParam {Integer} id restaurant id to delete.
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *  "entries": [
- *      {
- *        "passport_entry_id": 4,
- *        "restaurant_id": 3,
- *        "city": "Santa Clarita",
- *        "personal_rating": 5,
- *        "notes": "abc",
- *        "stamped": false,
- *        "restaurant": {
- *          "name": "Tomato Joe's Pizza Express",
- *          "street_address": "121233 McBean Pkwy",
- *          "city": "Santa Clarita",
- *          "state": "CA",
- *          "zipcode": "91350",
- *          "phone_number": "No phone number listed",
- *          "website_url": "No website listed"
- *        }
- *      }
- *      ... { more entries if available}
- *    ]
- * }
+  {
+    "entries": [
+      {
+        "restaurant_id": 1,
+        "name": "Crusty Crab",
+        "street_address": "1146 Nagoya Way",
+        "city": "San Pedro",
+        "state": "CA",
+        "zipcode": "90731",
+        "phone_number": "(310) 519-9058",
+        "website_url": "No website listed",
+        "personal_rating": 4,
+        "notes": "Some notes about this restaurant",
+        "stamped": true
+      },
+      {
+        "restaurant_id": 2,
+        "name": "A Restaurant Name",
+        "street_address": "123 Road Dr",
+        "city": "Ficticious City",
+        "state": "Some State",
+        "zipcode": "12345",
+        "phone_number": "No phone number listed",
+        "website_url": "No website listed",
+        "personal_rating": 0,
+        "notes": "Best chili dogs ever",
+        "stamped": true
+      }
+    ]
+  }
  *
  * @apiError (401 Unauthorized) {json} Unauthorized Missing or invalid token in authorization header.
  *
@@ -208,13 +201,6 @@ router.put("/entry/:entry_id", authenticator, function(req, res) {
  *    HTTP/1.1 401 Unauthorized
  *    {
  *      "error": "Token invalid"
- *    }
- * @apiError (404 NotFound) {json} Entry doesn't exist.
- *
- * @apiErrorExample {json} 404 Error-Response
- *    HTTP/1.1 404 NotFound
- *    {
- *      "error": "Resource not found"
  *    }
  *
  * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
@@ -225,26 +211,97 @@ router.put("/entry/:entry_id", authenticator, function(req, res) {
  *      "error": "Server error"
  *    }
  */
-router.delete("/entry/:entry_id", authenticator, function(req, res) {
-  passport.entry
-    .remove(req.token.sub, req.params.entry_id)
-    .then((result) => {
-      if (result > 0) {
-        passport
-          .find(req.token.sub)
-          .then((passportData) => {
-            if (passportData.entries) {
-              res.status(200).json({ entries: passportData.entries });
-            } else {
-              res.status(200).json({ entries: [] });
-            }
-          })
-          .catch((err) => {
-            res.status(500).json(internalError(err));
-          });
-      } else {
-        res.status(404).json({ error: "Resource not found" });
+router.put("/entry/:restaurant_id", authenticator, function(req, res) {
+  const possibleChanges = ({
+    name,
+    street_address,
+    city,
+    state,
+    zipcode,
+    phone_number,
+    website_url,
+    personal_rating,
+    notes,
+    stamped,
+  } = req.body);
+
+  const changes = {};
+
+  for (const item in possibleChanges) {
+    if (item) {
+      changes[item] = possibleChanges[item];
+    }
+  }
+
+  Passport.updateEntry(req.token.sub, req.params.restaurant_id, changes)
+    .then((passport) => {
+      res.status(200).json(passport);
+    })
+    .catch((err) => {
+      res.status(500).json(internalError(err));
+    });
+});
+
+/**
+ * @api {delete} /passport/entry/:id Delete passport entry
+ * @apiName DeletePassportEntry
+ * @apiGroup Passport
+ *
+ * @apiParam {Integer} id restaurant id to delete.
+ *
+ * @apiSuccessExample Success-Response:
+ *    HTTP/1.1 200 OK
+  {
+    "entries": [
+      {
+        "restaurant_id": 1,
+        "name": "Crusty Crab",
+        "street_address": "1146 Nagoya Way",
+        "city": "San Pedro",
+        "state": "CA",
+        "zipcode": "90731",
+        "phone_number": "(310) 519-9058",
+        "website_url": "No website listed",
+        "personal_rating": 4,
+        "notes": "Some notes about this restaurant",
+        "stamped": true
+      },
+      {
+        "restaurant_id": 2,
+        "name": "A Restaurant Name",
+        "street_address": "123 Road Dr",
+        "city": "Ficticious City",
+        "state": "Some State",
+        "zipcode": "12345",
+        "phone_number": "No phone number listed",
+        "website_url": "No website listed",
+        "personal_rating": 0,
+        "notes": "Best chili dogs ever",
+        "stamped": true
       }
+    ]
+  }
+ *
+ * @apiError (401 Unauthorized) {json} Unauthorized Missing or invalid token in authorization header.
+ *
+ * @apiErrorExample {json} 401 Error-Response
+ *    HTTP/1.1 401 Unauthorized
+ *    {
+ *      "error": "Token invalid"
+ *    }
+ *
+ * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
+ *
+ * @apiErrorExample {json} 500 Error-Response
+ *    HTTP/1.1 500 Internal Server Error
+ *    {
+ *      "error": "Server error"
+ *    }
+ */
+router.delete("/entry/:restaurant_id", authenticator, function(req, res) {
+  Passport.removeEntry(req.token.sub, req.params.restaurant_id)
+    .then((passport) => {
+      res.status(200).json(passport);
     })
     .catch((err) => {
       res.status(500).json(internalError(err));
