@@ -3,6 +3,9 @@
 Restaurant Passport is an app for people that want to log what restaurants they have been to, as well as find new places in their area that they might be interested in but haven't heard of before.
 This repository serves as the backend for the project. See the [Product Canvas](https://docs.google.com/document/d/1mw1DhTwas-AW_0jQtWr1EpigJKfQa2jW4-wGprVToLw/edit?usp=sharing) for more information.
 
+## API Documentation
+API documentation generated with [ApiDoc](https://restaurant-passport-apidocs.netlify.com/)
+
 ## Technologies used:
 
 General:
