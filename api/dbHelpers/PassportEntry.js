@@ -80,8 +80,19 @@ function update(passport_entry_id, changes) {
     .update(changes);
 }
 
-function remove(passport_entry_id) {
-  return knex("passport_entry")
-    .where({ passport_entry_id: passport_entry_id })
-    .del();
+function remove(user_id, passport_entry_id) {
+  return knex
+    .select("pp.user_id")
+    .from("passport AS pp")
+    .join("passport_entry AS pe", "pp.passport_id", "=", "pe.passport_id")
+    .where("pe.passport_entry_id", "=", passport_entry_id)
+    .andWhere("pp.user_id", "=", user_id)
+    .first()
+    .then((queryRes) => {
+      if (queryRes && queryRes.user_id === user_id) {
+        return knex("passport_entry")
+          .where("passport_entry_id", passport_entry_id)
+          .del();
+      }
+    });
 }
