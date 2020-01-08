@@ -14,29 +14,31 @@ const Passport = require("../dbHelpers/Passport");
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *   "user": {
- *   "name": "demo",
- *   "username": "demo",
- *   "email": "demo@email.com",
- *   "city": "Demo City",
- *   "zipcode": "12345",
- *   "passport": [
- *      {
- *        "restaurant_id": 1,
- *        "name": Pizza Barn,
- *        "street_address": "123 Road Dr",
- *        "city": "Santa Clarita",
- *        "state": "CA",
- *        "zipcode": "91350",
- *        "personal_rating": 5,
- *        "notes": "Enjoyed the atmosphere and dining experience. Pizza was great.",
- *        "stamped": true
- *      }
- *   ]
- * },
- *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
- * }
+  {
+    "user": {
+      "name": "Test User",
+      "username": "test",
+      "email": "test@email.com",
+      "city": "Fake City",
+      "zipcode": "12345",
+      "passport": [
+        {
+          "restaurant_id": 1,
+          "name": "Crusty Crab",
+          "street_address": "1146 Nagoya Way",
+          "city": "San Pedro",
+          "state": "CA",
+          "zipcode": "90731",
+          "phone_number": "(310) 519-9058",
+          "website_url": "No website listed",
+          "personal_rating": 4,
+          "notes": "Some notes about this restaurant",
+          "stamped": true
+        }
+      ]
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODUyNDM2MywiZXhwIjoxNTc4NTM1MTYzfQ.gD7EZeNhypJZ5GA7Ag2HbHyWtLRo8mJ3-mqEGFVGfZA"
+  }
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing username or password parameters in request.
  *
@@ -125,17 +127,17 @@ router.post("/login", validateLogin, function(req, res) {
  *
  * @apiSuccessExample Success-Response:
  *    HTTP/1.1 200 OK
- * {
- *   "user": {
- *   "name": "demo",
- *   "username": "demo",
- *   "email": "demo@email.com",
- *   "city": "Demo City",
- *   "zipcode": "12345",
- *   "passport": []
- * },
- *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
- * }
+  {
+    "user": {
+      "name": "Chuck Norris",
+      "username": "loneranger",
+      "email": "chuck@norris.com",
+      "city": "Chuck City",
+      "zipcode": "12345",
+      "passport": []
+    },
+    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTU3ODUyNDQ2NiwiZXhwIjoxNTc4NTM1MjY2fQ.g1Xc0Gk_ebQmBjFKGMSvFTEIc99YeBUUXleI2vMK8Xw"
+  }
  *
  * @apiError (400 Bad Request) {json} BadRequest Missing a required parameter for registration.
  *
