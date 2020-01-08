@@ -29,7 +29,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n  \"user\": {\n  \"name\": \"demo\",\n  \"username\": \"demo\",\n  \"email\": \"demo@email.com\",\n  \"city\": \"Demo City\",\n  \"zipcode\": \"12345\",\n  \"passport\": [\n     {\n       \"passport_entry_id\": 1,\n       \"passport_id\": 1,\n       \"restaurant_id\": 1,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"Enjoyed the atmosphere and dining experience. Pizza was great.\",\n       \"stamped\": true\n     }\n  ]\n},\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M\"\n}",
+          "content": " HTTP/1.1 200 OK\n{\n  \"user\": {\n    \"name\": \"Test User\",\n    \"username\": \"test\",\n    \"email\": \"test@email.com\",\n    \"city\": \"Fake City\",\n    \"zipcode\": \"12345\",\n    \"passport\": [\n      {\n        \"restaurant_id\": 1,\n        \"name\": \"Crusty Crab\",\n        \"street_address\": \"1146 Nagoya Way\",\n        \"city\": \"San Pedro\",\n        \"state\": \"CA\",\n        \"zipcode\": \"90731\",\n        \"phone_number\": \"(310) 519-9058\",\n        \"website_url\": \"No website listed\",\n        \"personal_rating\": 4,\n        \"notes\": \"Some notes about this restaurant\",\n        \"stamped\": true\n      }\n    ]\n  },\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODUyNDM2MywiZXhwIjoxNTc4NTM1MTYzfQ.gD7EZeNhypJZ5GA7Ag2HbHyWtLRo8mJ3-mqEGFVGfZA\"\n}",
           "type": "json"
         }
       ]
@@ -144,7 +144,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n  \"user\": {\n  \"name\": \"demo\",\n  \"username\": \"demo\",\n  \"email\": \"demo@email.com\",\n  \"city\": \"Demo City\",\n  \"zipcode\": \"12345\",\n  \"passport\": []\n},\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M\"\n}",
+          "content": " HTTP/1.1 200 OK\n{\n  \"user\": {\n    \"name\": \"Chuck Norris\",\n    \"username\": \"loneranger\",\n    \"email\": \"chuck@norris.com\",\n    \"city\": \"Chuck City\",\n    \"zipcode\": \"12345\",\n    \"passport\": []\n  },\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTU3ODUyNDQ2NiwiZXhwIjoxNTc4NTM1MjY2fQ.g1Xc0Gk_ebQmBjFKGMSvFTEIc99YeBUUXleI2vMK8Xw\"\n}",
           "type": "json"
         }
       ]
@@ -215,7 +215,7 @@
             "type": "Integer",
             "optional": false,
             "field": "id",
-            "description": "<p>passport entry id to delete.</p>"
+            "description": "<p>restaurant id to delete.</p>"
           }
         ]
       }
@@ -224,7 +224,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
+          "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    },\n    {\n      \"restaurant_id\": 2,\n      \"name\": \"A Restaurant Name\",\n      \"street_address\": \"123 Road Dr\",\n      \"city\": \"Ficticious City\",\n      \"state\": \"Some State\",\n      \"zipcode\": \"12345\",\n      \"phone_number\": \"No phone number listed\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 0,\n      \"notes\": \"Best chili dogs ever\",\n      \"stamped\": true\n    }\n  ]\n}",
           "type": "json"
         }
       ]
@@ -238,15 +238,6 @@
             "optional": false,
             "field": "Unauthorized",
             "description": "<p>Missing or invalid token in authorization header.</p>"
-          }
-        ],
-        "404 NotFound": [
-          {
-            "group": "404 NotFound",
-            "type": "json",
-            "optional": false,
-            "field": "Entry",
-            "description": "<p>doesn't exist.</p>"
           }
         ],
         "500 Internal Server Error": [
@@ -266,8 +257,56 @@
           "type": "json"
         },
         {
-          "title": "404 Error-Response",
-          "content": "HTTP/1.1 404 NotFound\n{\n  \"error\": \"Resource not found\"\n}",
+          "title": "500 Error-Response",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "api/passport/passportRouter.js",
+    "groupTitle": "Passport"
+  },
+  {
+    "type": "get",
+    "url": "/passport",
+    "title": "Get user passport",
+    "name": "GetPassport",
+    "group": "Passport",
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    }\n  ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401 Unauthorized",
+            "type": "json",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>Missing or invalid token in authorization header.</p>"
+          }
+        ],
+        "500 Internal Server Error": [
+          {
+            "group": "500 Internal Server Error",
+            "type": "json",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>Server side error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Error-Response",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n  \"error\": \"Token invalid\"\n}",
           "type": "json"
         },
         {
@@ -286,7 +325,7 @@
     "url": "/passport/entry",
     "title": "Create a passport entry",
     "name": "PostEntry",
-    "group": "PassportEntry",
+    "group": "Passport",
     "parameter": {
       "fields": {
         "Parameter": [
@@ -367,7 +406,7 @@
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 201 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
+          "content": " HTTP/1.1 201 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    },\n    {\n      \"restaurant_id\": 2,\n      \"name\": \"A Restaurant Name\",\n      \"street_address\": \"123 Road Dr\",\n      \"city\": \"Ficticious City\",\n      \"state\": \"Some State\",\n      \"zipcode\": \"12345\",\n      \"phone_number\": \"No phone number listed\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 0,\n      \"notes\": \"Best chili dogs ever\",\n      \"stamped\": true\n    }\n  ]\n}",
           "type": "json"
         }
       ]
@@ -422,19 +461,32 @@
     },
     "version": "0.0.0",
     "filename": "api/passport/passportRouter.js",
-    "groupTitle": "PassportEntry"
+    "groupTitle": "Passport"
   },
   {
-    "type": "get",
-    "url": "/passport",
-    "title": "Get user passport",
-    "name": "GetPassport",
+    "type": "put",
+    "url": "/passport/entry/:id",
+    "title": "Edit passport entry",
+    "name": "PutPassportEntry",
     "group": "Passport",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "id",
+            "description": "<p>restaurant id to delete.</p>"
+          }
+        ]
+      }
+    },
     "success": {
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
+          "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    },\n    {\n      \"restaurant_id\": 2,\n      \"name\": \"A Restaurant Name\",\n      \"street_address\": \"123 Road Dr\",\n      \"city\": \"Ficticious City\",\n      \"state\": \"Some State\",\n      \"zipcode\": \"12345\",\n      \"phone_number\": \"No phone number listed\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 0,\n      \"notes\": \"Best chili dogs ever\",\n      \"stamped\": true\n    }\n  ]\n}",
           "type": "json"
         }
       ]
