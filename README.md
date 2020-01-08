@@ -3,8 +3,8 @@
 Restaurant Passport is an app for people that want to log what restaurants they have been to, as well as find new places in their area that they might be interested in but haven't heard of before.
 This repository serves as the backend for the project. See the [Product Canvas](https://docs.google.com/document/d/1mw1DhTwas-AW_0jQtWr1EpigJKfQa2jW4-wGprVToLw/edit?usp=sharing) for more information.
 
-## API Documentation
-API documentation generated with [ApiDoc](https://restaurant-passport-apidocs.netlify.com/)
+## [API Documentation](https://restaurant-passport-apidocs.netlify.com/)
+API documentation generated with [ApiDoc](https://apidocjs.com/)
 
 ## Technologies used:
 
@@ -18,7 +18,6 @@ Security
 
 - [CORS](https://www.npmjs.com/package/cors) for Cross-Origin configuration.
 - [helmet](https://www.npmjs.com/package/helmet) for basic security adjustments to the server.
-- [passport](http://www.passportjs.org/) for integrating authentication strategies.
 - [bcrypt](https://www.npmjs.com/package/bcrypt) for encrypting/hashing sensitive user data.
 
 Testing:
@@ -37,6 +36,18 @@ Database:
 $ npm install
 ```
 
+## Required environment variables
+These are required to get the server working after install:
+  NODE_ENV - production / development
+  PORT - For heroku deployment
+  DATABASE_ENV - testing / developing / production
+  DATABASE_URL - Production database connection string (used by heroku)
+  DATABASE_URL_DEV - development database connection string
+  DATABASE_URL_TEST - testing database connection string
+  JWT_SECRET - Key for encrypting JWTs
+  HASH_SALT_ROUNDS - Salt rounds for bcrypt hashes
+  YELP_API_KEY - Used by the /restaurants/search route
+
 ## Running the server
 
 ```bash
@@ -45,6 +56,19 @@ $ npm run start
 
 # development mode
 $ npm run start:dev
+```
+
+## Developing
+
+```bash
+# migrate database to latest
+$ npm run db:latest
+
+# rollback database migrations
+$ npm run db:rollback
+
+# seed the database
+$ npm run db:seed
 ```
 
 ## Testing
