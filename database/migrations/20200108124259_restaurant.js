@@ -47,7 +47,12 @@ exports.up = function(knex) {
     tbl.text("notes").notNullable();
 
     //Indicator for having visited a restaurant
-    tbl.boolean("stamped").notNullable();
+    tbl
+      .boolean("stamped")
+      .notNullable()
+      .defaultTo(false);
+
+    tbl.unique(["user_id", "street_address"]);
   });
 };
 

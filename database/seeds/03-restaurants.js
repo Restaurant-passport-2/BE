@@ -1,14 +1,14 @@
 exports.seed = function(knex) {
   return knex("restaurant").insert({
     user_id: 1,
-    name: "Chi Chi's Pizza",
-    street_address: "23043 Soledad Canyon Rd",
-    city: "Santa Clarita",
+    name: "Crusty Crab",
+    street_address: "1146 Nagoya Way",
+    city: "San Pedro",
     state: "CA",
-    zipcode: "91350",
-    phone_number: "(661) 259-4040",
-    personal_rating: 5,
-    notes: "Enjoyed the atmosphere and dining experience. Pizza was great.",
+    zipcode: "90731",
+    phone_number: "(310) 519-9058",
+    personal_rating: 4,
+    notes: "Some notes about this restaurant",
     stamped: true,
   });
 };
