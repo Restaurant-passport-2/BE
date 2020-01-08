@@ -52,7 +52,7 @@ router.get("/", authenticator, function(req, res) {
   passport
     .find(req.token.sub)
     .then((passportData) => {
-      if (passportData.entries) {
+      if (passportData && passportData.entries) {
         res.status(200).json({ entries: passportData.entries });
       } else {
         res.status(200).json({ entries: [] });
