@@ -87,7 +87,8 @@ router.post("/login", validateLogin, function(req, res) {
                       email: foundUser.email,
                       city: foundUser.city,
                       zipcode: foundUser.zipcode,
-                      passport: userPassport.entries,
+                      //Handle users with no passport entries
+                      passport: userPassport.entries ? userPassport.entries : [],
                     },
                     token: token,
                   });
@@ -96,14 +97,14 @@ router.post("/login", validateLogin, function(req, res) {
                   res.status(500).json(internalError(err));
                 });
             } else {
-              res.status(401).json({ message: "Invalid username/password combination" });
+              res.status(401).json({ error: "Invalid username/password combination" });
             }
           })
           .catch((err) => {
             res.status(500).json(internalError(err));
           });
       } else {
-        res.status(401).json({ message: "Invalid username/password combination" });
+        res.status(401).json({ error: "Invalid username/password combination" });
       }
     })
     .catch((err) => {
@@ -160,6 +161,7 @@ router.post("/login", validateLogin, function(req, res) {
  *    }
  */
 router.post("/signup", validateSignup, function(req, res) {
+  //Get required info from request
   const user = ({ name, email, username, password, city, zipcode } = req.user);
 
   //Hash password before inserting user into database.
@@ -182,12 +184,12 @@ router.post("/signup", validateSignup, function(req, res) {
               //Return user info and auth token
               res.status(200).json({
                 user: {
-                  passport: passport_id[0],
                   name: user.name,
                   username: user.username,
                   email: user.email,
                   city: user.city,
                   zipcode: user.zipcode,
+                  passport: [],
                 },
                 token: token,
               });
@@ -198,7 +200,7 @@ router.post("/signup", validateSignup, function(req, res) {
         })
         .catch((err) => {
           if (err.code === "23505") {
-            res.status(409).json({ message: "Account already exists" });
+            res.status(409).json({ error: "Account already exists" });
           } else {
             res.status(500).json(internalError(err));
           }
