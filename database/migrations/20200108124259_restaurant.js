@@ -47,10 +47,7 @@ exports.up = function(knex) {
     tbl.text("notes").notNullable();
 
     //Indicator for having visited a restaurant
-    tbl
-      .boolean("stamped")
-      .notNullable()
-      .defaultTo(false);
+    tbl.boolean("stamped").notNullable();
   });
 };
 
