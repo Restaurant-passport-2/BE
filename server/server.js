@@ -26,10 +26,6 @@ server.use(cors());
 
 server.use("/api", apiRouter);
 
-server.use(function finalErrorCatchHandler(err, req, res, next) {
-  console.log("Uncaught exception:", err);
-});
-
 server.get("/", (req, res) => {
   res.status(200).json({ message: "API running!" });
 });
@@ -37,6 +33,13 @@ server.get("/", (req, res) => {
 //Route 404 fallback
 server.use((req, res) => {
   res.status(404).json({ message: "Invalid route" });
+});
+
+//Final catch error handler
+server.use(function finalErrorCatchHandler(err, req, res, next) {
+  console.log("Uncaught exception:", err);
+  //I don't want the ENTIRE server to crash over 1 user causing an error
+  next();
 });
 
 module.exports = server;
