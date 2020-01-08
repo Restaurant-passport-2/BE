@@ -143,6 +143,13 @@ router.post("/login", validateLogin, function(req, res) {
  *    {
  *      "message": "Please provide name, email, username, password, city, and zipcode"
  *    }
+ * @apiError (409 Conflict) {json} Conflict Account already exists.
+ *
+ * @apiErrorExample {json} 409 Error-Response
+ *    HTTP/1.1 409 Conflict
+ *    {
+ *      "message": "Account already exists"
+ *    }
  *
  * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
  *

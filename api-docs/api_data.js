@@ -160,6 +160,15 @@ define({ "api": [
             "description": "<p>Missing a required parameter for registration.</p>"
           }
         ],
+        "409 Conflict": [
+          {
+            "group": "409 Conflict",
+            "type": "json",
+            "optional": false,
+            "field": "Conflict",
+            "description": "<p>Account already exists.</p>"
+          }
+        ],
         "500 Internal Server Error": [
           {
             "group": "500 Internal Server Error",
@@ -174,6 +183,11 @@ define({ "api": [
         {
           "title": "400 Error-Response",
           "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": \"Please provide name, email, username, password, city, and zipcode\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "409 Error-Response",
+          "content": "HTTP/1.1 409 Conflict\n{\n  \"message\": \"Account already exists\"\n}",
           "type": "json"
         },
         {
