@@ -10,17 +10,18 @@ module.exports = {
 
 function find(passport_id) {
   return knex
-    .select("*")
+    .select(["passport_entry_id", "restaurant_id", "city", "personal_rating", "notes", "stamped"])
     .from("passport_entry")
     .where({ passport_id: passport_id })
     .then(async (entries) => {
+      //entries is an array of passport_entry objects
       if (entries.length > 0) {
         restaurantIds = [];
         entries.forEach((entry) => {
           restaurantIds.push(entry.restaurant_id);
         });
         return await knex
-          .select("*")
+          .select(["name", "street_address", "city", "state", "zipcode", "phone_number", "website_url"])
           .from("restaurant")
           .whereIn("restaurant_id", restaurantIds)
           .then((restaurants) => {
@@ -80,19 +81,17 @@ function update(passport_entry_id, changes) {
     .update(changes);
 }
 
-function remove(user_id, passport_entry_id) {
-  return knex
+async function remove(user_id, passport_entry_id) {
+  const queryRes = await knex
     .select("pp.user_id")
     .from("passport AS pp")
     .join("passport_entry AS pe", "pp.passport_id", "=", "pe.passport_id")
     .where("pe.passport_entry_id", "=", passport_entry_id)
     .andWhere("pp.user_id", "=", user_id)
-    .first()
-    .then((queryRes) => {
-      if (queryRes && queryRes.user_id === user_id) {
-        return knex("passport_entry")
-          .where("passport_entry_id", passport_entry_id)
-          .del();
-      }
-    });
+    .first();
+  if (queryRes && queryRes.user_id === user_id) {
+    return knex("passport_entry")
+      .where("passport_entry_id", passport_entry_id)
+      .del();
+  }
 }
