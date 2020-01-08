@@ -41,7 +41,7 @@ const { validateLogin, validateSignup, internalError, signToken } = require("../
  * @apiErrorExample {json} 400 Error-Response
  *    HTTP/1.1 400 Bad Request
  *    {
- *      "message": "Please provide username & password to login"
+ *      "error": "Please provide username & password to login"
  *    }
  *
  * @apiError (401 Unauthorized) {json} Unauthorized The username/password combination was invalid.
@@ -49,14 +49,14 @@ const { validateLogin, validateSignup, internalError, signToken } = require("../
  * @apiErrorExample {json} 401 Error-Response
  *    HTTP/1.1 401 Unauthorized
  *    {
- *      "message": "Invalid username/password combination"
+ *      "error": "Invalid username/password combination"
  *    }
  * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
  *
  * @apiErrorExample {json} 500 Error-Response
  *    HTTP/1.1 500 Internal Server Error
  *    {
- *      "message": "Server error"
+ *      "error": "Server error"
  *    }
  */
 router.post("/login", validateLogin, function(req, res) {
@@ -132,7 +132,8 @@ router.post("/login", validateLogin, function(req, res) {
  *   "username": "demo",
  *   "email": "demo@email.com",
  *   "city": "Demo City",
- *   "zipcode": "12345"
+ *   "zipcode": "12345",
+ *   "passport": []
  * },
  *   "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M"
  * }
@@ -142,14 +143,14 @@ router.post("/login", validateLogin, function(req, res) {
  * @apiErrorExample {json} 400 Error-Response
  *    HTTP/1.1 400 Bad Request
  *    {
- *      "message": "Please provide name, email, username, password, city, and zipcode"
+ *      "error": "Please provide name, email, username, password, city, and zipcode"
  *    }
  * @apiError (409 Conflict) {json} Conflict Account already exists.
  *
  * @apiErrorExample {json} 409 Error-Response
  *    HTTP/1.1 409 Conflict
  *    {
- *      "message": "Account already exists"
+ *      "error": "Account already exists"
  *    }
  *
  * @apiError (500 Internal Server Error) {json} InternalServerError Server side error.
@@ -157,7 +158,7 @@ router.post("/login", validateLogin, function(req, res) {
  * @apiErrorExample {json} 500 Error-Response
  *    HTTP/1.1 500 Internal Server Error
  *    {
- *      "message": "Server error"
+ *      "error": "Server error"
  *    }
  */
 router.post("/signup", validateSignup, function(req, res) {
