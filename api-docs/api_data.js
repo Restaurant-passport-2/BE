@@ -308,8 +308,8 @@ define({ "api": [
             "group": "409 Conflict",
             "type": "json",
             "optional": false,
-            "field": "Resource",
-            "description": "<p>already exists</p>"
+            "field": "Conflict",
+            "description": "<p>Resource already exists</p>"
           }
         ],
         "500 Internal Server Error": [

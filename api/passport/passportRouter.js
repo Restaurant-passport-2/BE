@@ -112,7 +112,7 @@ router.get("/", authenticator, function(req, res) {
  *      "error": "Token invalid"
  *    }
  *
- * @apiError (409 Conflict) {json} Resource already exists
+ * @apiError (409 Conflict) {json} Conflict Resource already exists
  *
  * @apiErrorExample {json} 409 Error-Response
  *    HTTP/1.1 401 Conflict
