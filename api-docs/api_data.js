@@ -67,17 +67,17 @@ define({ "api": [
       "examples": [
         {
           "title": "400 Error-Response",
-          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": \"Please provide username & password to login\"\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"error\": \"Please provide username & password to login\"\n}",
           "type": "json"
         },
         {
           "title": "401 Error-Response",
-          "content": "HTTP/1.1 401 Unauthorized\n{\n  \"message\": \"Invalid username/password combination\"\n}",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n  \"error\": \"Invalid username/password combination\"\n}",
           "type": "json"
         },
         {
           "title": "500 Error-Response",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"message\": \"Server error\"\n}",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
           "type": "json"
         }
       ]
@@ -144,7 +144,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n  \"user\": {\n  \"name\": \"demo\",\n  \"username\": \"demo\",\n  \"email\": \"demo@email.com\",\n  \"city\": \"Demo City\",\n  \"zipcode\": \"12345\"\n},\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M\"\n}",
+          "content": "   HTTP/1.1 200 OK\n{\n  \"user\": {\n  \"name\": \"demo\",\n  \"username\": \"demo\",\n  \"email\": \"demo@email.com\",\n  \"city\": \"Demo City\",\n  \"zipcode\": \"12345\",\n  \"passport\": []\n},\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODQxNTg2NSwiZXhwIjoxNTc4NDI2NjY1fQ.3UN6bXm0lMXl5YvqSp-wBDzF41YSyGI7dfkTntUvu7M\"\n}",
           "type": "json"
         }
       ]
@@ -182,17 +182,17 @@ define({ "api": [
       "examples": [
         {
           "title": "400 Error-Response",
-          "content": "HTTP/1.1 400 Bad Request\n{\n  \"message\": \"Please provide name, email, username, password, city, and zipcode\"\n}",
+          "content": "HTTP/1.1 400 Bad Request\n{\n  \"error\": \"Please provide name, email, username, password, city, and zipcode\"\n}",
           "type": "json"
         },
         {
           "title": "409 Error-Response",
-          "content": "HTTP/1.1 409 Conflict\n{\n  \"message\": \"Account already exists\"\n}",
+          "content": "HTTP/1.1 409 Conflict\n{\n  \"error\": \"Account already exists\"\n}",
           "type": "json"
         },
         {
           "title": "500 Error-Response",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"message\": \"Server error\"\n}",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
           "type": "json"
         }
       ]
@@ -200,6 +200,86 @@ define({ "api": [
     "version": "0.0.0",
     "filename": "api/auth/authRouter.js",
     "groupTitle": "Auth"
+  },
+  {
+    "type": "delete",
+    "url": "/passport/entry/:id",
+    "title": "Delete passport entry",
+    "name": "DeletePassportEntry",
+    "group": "Passport",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "Integer",
+            "optional": false,
+            "field": "id",
+            "description": "<p>passport entry id to delete.</p>"
+          }
+        ]
+      }
+    },
+    "success": {
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "   HTTP/1.1 200 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "error": {
+      "fields": {
+        "401 Unauthorized": [
+          {
+            "group": "401 Unauthorized",
+            "type": "json",
+            "optional": false,
+            "field": "Unauthorized",
+            "description": "<p>Missing or invalid token in authorization header.</p>"
+          }
+        ],
+        "404 NotFound": [
+          {
+            "group": "404 NotFound",
+            "type": "json",
+            "optional": false,
+            "field": "Entry",
+            "description": "<p>doesn't exist.</p>"
+          }
+        ],
+        "500 Internal Server Error": [
+          {
+            "group": "500 Internal Server Error",
+            "type": "json",
+            "optional": false,
+            "field": "InternalServerError",
+            "description": "<p>Server side error.</p>"
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "401 Error-Response",
+          "content": "HTTP/1.1 401 Unauthorized\n{\n  \"error\": \"Token invalid\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "404 Error-Response",
+          "content": "HTTP/1.1 404 NotFound\n{\n  \"error\": \"Resource not found\"\n}",
+          "type": "json"
+        },
+        {
+          "title": "500 Error-Response",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.0.0",
+    "filename": "api/passport/passportRouter.js",
+    "groupTitle": "Passport"
   },
   {
     "type": "post",
@@ -287,7 +367,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 201 OK\n{\n \"entries\": [\n   {\n     \"passport_entry_id\": 1,\n     \"passport_id\": 1,\n     \"restaurant_id\": 1,\n     \"city\": \"Santa Clarita\",\n     \"personal_rating\": 5,\n     \"notes\": \"Enjoyed the atmosphere and dining experience. Pizza was great.\",\n     \"stamped\": true,\n     \"restaurant\": {\n       \"restaurant_id\": 1,\n       \"name\": \"Chi Chi's Pizza\",\n        \"street_address\": \"23043 Soledad Canyon Rd\",\n       \"city\": \"Santa Clarita\",\n       \"state\": \"CA\",\n       \"zipcode\": \"91350\",\n       \"phone_number\": \"(661) 259-4040\",\n       \"website_url\": \"No website listed\",\n       \"public_rating\": 0\n     },\n   ... { more entries if they exist }\n ]\n}",
+          "content": "   HTTP/1.1 201 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
           "type": "json"
         }
       ]
@@ -330,12 +410,12 @@ define({ "api": [
         },
         {
           "title": "409 Error-Response",
-          "content": "HTTP/1.1 401 Conflict\n{\n   \"message\": \"Restaurant already exists in another entry\"\n}",
+          "content": "HTTP/1.1 401 Conflict\n{\n   \"error\": \"Restaurant already exists in another entry\"\n}",
           "type": "json"
         },
         {
           "title": "500 Error-Response",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"message\": \"Server error\"\n}",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
           "type": "json"
         }
       ]
@@ -354,7 +434,7 @@ define({ "api": [
       "examples": [
         {
           "title": "Success-Response:",
-          "content": "   HTTP/1.1 200 OK\n{\n \"entries\": [\n   {\n     \"passport_entry_id\": 1,\n     \"passport_id\": 1,\n     \"restaurant_id\": 1,\n     \"city\": \"Santa Clarita\",\n     \"personal_rating\": 5,\n     \"notes\": \"Enjoyed the atmosphere and dining experience. Pizza was great.\",\n     \"stamped\": true,\n     \"restaurant\": {\n       \"restaurant_id\": 1,\n       \"name\": \"Chi Chi's Pizza\",\n        \"street_address\": \"23043 Soledad Canyon Rd\",\n       \"city\": \"Santa Clarita\",\n       \"state\": \"CA\",\n       \"zipcode\": \"91350\",\n       \"phone_number\": \"(661) 259-4040\",\n       \"website_url\": \"No website listed\",\n       \"public_rating\": 0\n     },\n   ... { more entries if they exist }\n ]\n}",
+          "content": "   HTTP/1.1 200 OK\n{\n \"entries\": [\n     {\n       \"passport_entry_id\": 4,\n       \"restaurant_id\": 3,\n       \"city\": \"Santa Clarita\",\n       \"personal_rating\": 5,\n       \"notes\": \"abc\",\n       \"stamped\": false,\n       \"restaurant\": {\n         \"name\": \"Tomato Joe's Pizza Express\",\n         \"street_address\": \"121233 McBean Pkwy\",\n         \"city\": \"Santa Clarita\",\n         \"state\": \"CA\",\n         \"zipcode\": \"91350\",\n         \"phone_number\": \"No phone number listed\",\n         \"website_url\": \"No website listed\"\n       }\n     }\n     ... { more entries if available}\n   ]\n}",
           "type": "json"
         }
       ]
@@ -388,7 +468,7 @@ define({ "api": [
         },
         {
           "title": "500 Error-Response",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"message\": \"Server error\"\n}",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
           "type": "json"
         }
       ]
@@ -503,7 +583,7 @@ define({ "api": [
         },
         {
           "title": "500 Error-Response",
-          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"message\": \"Server error\"\n}",
+          "content": "HTTP/1.1 500 Internal Server Error\n{\n  \"error\": \"Server error\"\n}",
           "type": "json"
         }
       ]
