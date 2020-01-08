@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "start:dev": "nodemon index.js",
-    "db:migrate": "knex migrate:latest",
+    "db:latest": "knex migrate:latest",
+    "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

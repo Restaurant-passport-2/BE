@@ -7,13 +7,13 @@ module.exports = function(req, res, next) {
     const secret = process.env.JWT_SECRET;
     jwt.verify(authorization, secret, function(error, decodedToken) {
       if (error) {
-        res.status(401).json({ message: "Invalid token" });
+        res.status(401).json({ error: "Invalid token" });
       } else {
         req.token = decodedToken;
         next();
       }
     });
   } else {
-    res.status(401).json({ message: "User must be logged in to access this resource" });
+    res.status(401).json({ error: "User must be logged in to access this resource" });
   }
 };

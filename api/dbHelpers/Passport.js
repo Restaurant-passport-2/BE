@@ -16,7 +16,9 @@ function find(user_id) {
     .first()
     .then((passport) => {
       if (passport) {
+        //passport is an object with user_id and passport_id
         return entry.find(passport.passport_id).then((passportData) => {
+          //passportData is an array of objects
           return {
             ppid: passport.passport_id,
             entries: passportData,

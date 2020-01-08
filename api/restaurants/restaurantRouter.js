@@ -81,7 +81,7 @@ const { authenticator, searchBuilder, internalError } = require("../middleware/m
  * @apiErrorExample {json} 500 Error-Response
  *    HTTP/1.1 500 Internal Server Error
  *    {
- *      "message": "Server error"
+ *      "error": "Server error"
  *    }
  */
 router.get("/search", authenticator, searchBuilder, function(req, res) {
