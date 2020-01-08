@@ -9,7 +9,19 @@ module.exports = {
 
 function findByUserId(user_id) {
   return knex
-    .select("*")
+    .select([
+      "restaurant_id",
+      "name",
+      "street_address",
+      "city",
+      "state",
+      "zipcode",
+      "phone_number",
+      "website_url",
+      "personal_rating",
+      "notes",
+      "stamped",
+    ])
     .from("restaurant")
     .where({ user_id: user_id });
 }
