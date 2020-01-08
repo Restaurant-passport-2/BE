@@ -10,8 +10,8 @@ exports.seed = function(knex) {
       email: "test@email.com",
       username: "test",
       password: bcrypt.hashSync("test", saltRounds),
-      city: "Santa Clarita",
-      zipcode: "91350",
+      city: "Cocoa Beach",
+      zipcode: "32931",
     },
   ]);
 };
