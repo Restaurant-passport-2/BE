@@ -235,7 +235,11 @@ router.put("/entry/:restaurant_id", authenticator, function(req, res) {
 
   Passport.updateEntry(req.token.sub, req.params.restaurant_id, changes)
     .then((passport) => {
-      res.status(200).json(passport);
+      if (passport) {
+        res.status(200).json(passport);
+      } else {
+        res.status(204).json();
+      }
     })
     .catch((err) => {
       res.status(500).json(internalError(err));
@@ -301,7 +305,11 @@ router.put("/entry/:restaurant_id", authenticator, function(req, res) {
 router.delete("/entry/:restaurant_id", authenticator, function(req, res) {
   Passport.removeEntry(req.token.sub, req.params.restaurant_id)
     .then((passport) => {
-      res.status(200).json(passport);
+      if (passport) {
+        res.status(200).json(passport);
+      } else {
+        res.status(204).json();
+      }
     })
     .catch((err) => {
       res.status(500).json(internalError(err));
