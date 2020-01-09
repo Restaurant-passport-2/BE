@@ -12,7 +12,7 @@ const Passport = require("../dbHelpers/Passport");
  * @apiParam {String} username Valid username associated with an account.
  * @apiParam {String} password Valid password associated with an account.
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
   {
     "user": {
@@ -114,19 +114,19 @@ router.post("/login", validateLogin, function(req, res) {
 });
 
 /**
- * @api {post} /auth/signup User signup
+ * @api {post} /auth/signup User Signup
  * @apiName PostSignup
  * @apiGroup Auth
  *
- * @apiParam {String} name User's full name.
- * @apiParam {String} email User's email.
- * @apiParam {String} username User's username.
- * @apiParam {String} password User's password.
- * @apiParam {String} city User's city.
- * @apiParam {String} zipcode User's zipcode.
+ * @apiParam {String} name Full name.
+ * @apiParam {String} email Valid email address.
+ * @apiParam {String} username Username.
+ * @apiParam {String} password Strong password.
+ * @apiParam {String} city Client's city of residence.
+ * @apiParam {String} zipcode Client's residence zipcode.
  *
- * @apiSuccessExample Success-Response:
- *    HTTP/1.1 200 OK
+ * @apiSuccessExample Success-Response
+ *    HTTP/1.1 201 OK
   {
     "user": {
       "name": "Chuck Norris",
@@ -146,6 +146,7 @@ router.post("/login", validateLogin, function(req, res) {
  *    {
  *      "error": "Please provide name, email, username, password, city, and zipcode"
  *    }
+ * 
  * @apiError (409 Conflict) {json} Conflict Account already exists.
  *
  * @apiErrorExample {json} 409 Error-Response
@@ -181,7 +182,7 @@ router.post("/signup", validateSignup, function(req, res) {
           const token = signToken({ sub: user_id });
 
           //Return user info and auth token
-          res.status(200).json({
+          res.status(201).json({
             user: {
               name: userInfo.name,
               username: userInfo.username,

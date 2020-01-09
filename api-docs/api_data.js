@@ -28,7 +28,7 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success-Response",
           "content": " HTTP/1.1 200 OK\n{\n  \"user\": {\n    \"name\": \"Test User\",\n    \"username\": \"test\",\n    \"email\": \"test@email.com\",\n    \"city\": \"Fake City\",\n    \"zipcode\": \"12345\",\n    \"passport\": [\n      {\n        \"restaurant_id\": 1,\n        \"name\": \"Crusty Crab\",\n        \"street_address\": \"1146 Nagoya Way\",\n        \"city\": \"San Pedro\",\n        \"state\": \"CA\",\n        \"zipcode\": \"90731\",\n        \"phone_number\": \"(310) 519-9058\",\n        \"website_url\": \"No website listed\",\n        \"personal_rating\": 4,\n        \"notes\": \"Some notes about this restaurant\",\n        \"stamped\": true\n      }\n    ]\n  },\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImlhdCI6MTU3ODUyNDM2MywiZXhwIjoxNTc4NTM1MTYzfQ.gD7EZeNhypJZ5GA7Ag2HbHyWtLRo8mJ3-mqEGFVGfZA\"\n}",
           "type": "json"
         }
@@ -89,7 +89,7 @@ define({ "api": [
   {
     "type": "post",
     "url": "/auth/signup",
-    "title": "User signup",
+    "title": "User Signup",
     "name": "PostSignup",
     "group": "Auth",
     "parameter": {
@@ -100,42 +100,42 @@ define({ "api": [
             "type": "String",
             "optional": false,
             "field": "name",
-            "description": "<p>User's full name.</p>"
+            "description": "<p>Full name.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "email",
-            "description": "<p>User's email.</p>"
+            "description": "<p>Valid email address.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "username",
-            "description": "<p>User's username.</p>"
+            "description": "<p>Username.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "password",
-            "description": "<p>User's password.</p>"
+            "description": "<p>Strong password.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "city",
-            "description": "<p>User's city.</p>"
+            "description": "<p>Client's city of residence.</p>"
           },
           {
             "group": "Parameter",
             "type": "String",
             "optional": false,
             "field": "zipcode",
-            "description": "<p>User's zipcode.</p>"
+            "description": "<p>Client's residence zipcode.</p>"
           }
         ]
       }
@@ -143,7 +143,7 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success-Response",
           "content": " HTTP/1.1 200 OK\n{\n  \"user\": {\n    \"name\": \"Chuck Norris\",\n    \"username\": \"loneranger\",\n    \"email\": \"chuck@norris.com\",\n    \"city\": \"Chuck City\",\n    \"zipcode\": \"12345\",\n    \"passport\": []\n  },\n  \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjIsImlhdCI6MTU3ODUyNDQ2NiwiZXhwIjoxNTc4NTM1MjY2fQ.g1Xc0Gk_ebQmBjFKGMSvFTEIc99YeBUUXleI2vMK8Xw\"\n}",
           "type": "json"
         }
@@ -223,8 +223,13 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success-Response",
           "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    },\n    {\n      \"restaurant_id\": 2,\n      \"name\": \"A Restaurant Name\",\n      \"street_address\": \"123 Road Dr\",\n      \"city\": \"Ficticious City\",\n      \"state\": \"Some State\",\n      \"zipcode\": \"12345\",\n      \"phone_number\": \"No phone number listed\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 0,\n      \"notes\": \"Best chili dogs ever\",\n      \"stamped\": true\n    }\n  ]\n}",
+          "type": "json"
+        },
+        {
+          "title": "Alternate-Response",
+          "content": "HTTP/1.1 204 No Content",
           "type": "json"
         }
       ]
@@ -276,7 +281,7 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success-Response",
           "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    }\n  ]\n}",
           "type": "json"
         }
@@ -485,8 +490,13 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
+          "title": "Success-Response",
           "content": " HTTP/1.1 200 OK\n{\n  \"entries\": [\n    {\n      \"restaurant_id\": 1,\n      \"name\": \"Crusty Crab\",\n      \"street_address\": \"1146 Nagoya Way\",\n      \"city\": \"San Pedro\",\n      \"state\": \"CA\",\n      \"zipcode\": \"90731\",\n      \"phone_number\": \"(310) 519-9058\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 4,\n      \"notes\": \"Some notes about this restaurant\",\n      \"stamped\": true\n    },\n    {\n      \"restaurant_id\": 2,\n      \"name\": \"A Restaurant Name\",\n      \"street_address\": \"123 Road Dr\",\n      \"city\": \"Ficticious City\",\n      \"state\": \"Some State\",\n      \"zipcode\": \"12345\",\n      \"phone_number\": \"No phone number listed\",\n      \"website_url\": \"No website listed\",\n      \"personal_rating\": 0,\n      \"notes\": \"Best chili dogs ever\",\n      \"stamped\": true\n    }\n  ]\n}",
+          "type": "json"
+        },
+        {
+          "title": "Alternate-Response",
+          "content": "HTTP/1.1 204 No Content",
           "type": "json"
         }
       ]
@@ -554,7 +564,7 @@ define({ "api": [
           },
           {
             "group": "Parameter",
-            "type": "String",
+            "type": "Array",
             "optional": true,
             "field": "categories",
             "description": "<p>Categories to filter the search results with..</p>"
@@ -600,8 +610,8 @@ define({ "api": [
     "success": {
       "examples": [
         {
-          "title": "Success-Response:",
-          "content": "HTTP/1.1 200 OK\n{\n  \"businesses\": [\n    {\n      \"name\": \"Larsen's Steakhouse - Valencia\",\n      \"url\": \"https://www.yelp.com/biz/larsens-steakhouse-valencia-valencia?adjust_creative=V39ZouXZhFWakYvJzmT8QQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=V39ZouXZhFWakYvJzmT8QQ\",\n      \"image_url\": \"https://s3-media2.fl.yelpcdn.com/bphoto/JukjDzIcdbJ6iuLKyuLltg/o.jpg\",\n      \"is_closed\": false,\n      \"price\": \"$$$$\",\n      \"rating\": 4,\n      \"review_count\": 555,\n      \"categories\": [\n        {\n          \"alias\": \"steak\",\n          \"title\": \"Steakhouses\"\n        },\n        {\n          \"alias\": \"seafood\",\n          \"title\": \"Seafood\"\n        },\n        {\n          \"alias\": \"newamerican\",\n          \"title\": \"American (New)\"\n        }\n      ],\n      \"coordinates\": {\n        \"latitude\": 34.41728,\n        \"longitude\": -118.56143\n      },\n      \"location\": {\n        \"address1\": \"24320 Town Center Dr\",\n        \"address2\": \"Ste 130\",\n        \"address3\": \"\",\n        \"city\": \"Valencia\",\n        \"zip_code\": \"91355\",\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"display_address\": [\n          \"24320 Town Center Dr\",\n          \"Ste 130\",\n          \"Valencia, CA 91355\"\n        ]\n      },\n      \"phone\": \"+16612881002\",\n      \"display_phone\": \"(661) 288-1002\",\n      \"distance_miles\": 2.82,\n      \"distance_kilometers\": 4548\n    }\n  ]\n}",
+          "title": "Success-Response",
+          "content": "HTTP/1.1 200 OK\n{\n  \"businesses\": [\n    {\n      \"name\": \"Larsen's Steakhouse - Valencia\",\n      \"url\": \"https://www.yelp.com/biz/larsens-steakhouse-valencia-valencia?adjust_creative=V39ZouXZhFWakYvJzmT8QQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=V39ZouXZhFWakYvJzmT8QQ\",\n      \"image_url\": \"https://s3-media2.fl.yelpcdn.com/bphoto/JukjDzIcdbJ6iuLKyuLltg/o.jpg\",\n      \"is_closed\": false,\n      \"price\": \"$$$$\",\n      \"rating\": 4,\n      \"review_count\": 555,\n      \"categories\": [\n        {\n          \"alias\": \"steak\",\n          \"title\": \"Steakhouses\"\n        },\n        {\n          \"alias\": \"seafood\",\n          \"title\": \"Seafood\"\n        },\n        {\n          \"alias\": \"newamerican\",\n          \"title\": \"American (New)\"\n        }\n      ],\n      \"coordinates\": {\n        \"latitude\": 34.41728,\n        \"longitude\": -118.56143\n      },\n      \"location\": {\n        \"address1\": \"24320 Town Center Dr\",\n        \"address2\": \"Ste 130\",\n        \"address3\": \"\",\n        \"city\": \"Valencia\",\n        \"zip_code\": \"91355\",\n        \"country\": \"US\",\n        \"state\": \"CA\",\n        \"display_address\": [\n          \"24320 Town Center Dr\",\n          \"Ste 130\",\n          \"Valencia, CA 91355\"\n        ]\n      },\n      \"phone\": \"+16612881002\",\n      \"display_phone\": \"(661) 288-1002\",\n      \"distance\": 2.82,\n    }\n  ]\n}",
           "type": "json"
         }
       ]

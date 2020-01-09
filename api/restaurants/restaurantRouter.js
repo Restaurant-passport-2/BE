@@ -9,14 +9,14 @@ const { authenticator, searchBuilder, internalError } = require("../middleware/m
  *
  * @apiParam {String} [location] "city, state" or "city, zipcode".
  * @apiParam {String} [term] Search term, for example "food" or "restaurants". The term may also be business names, such as "Starbucks".
- * @apiParam {String} [categories] Categories to filter the search results with..
+ * @apiParam {Array} [categories] Categories to filter the search results with..
  * @apiParam {String} [price] Pricing levels to filter the search result with: 1 = $, 2 = $$, 3 = $$$, 4 = $$$$. The price filter can be a list of comma delimited pricing levels. For example, "1, 2, 3" will filter the results to show the ones that are $, $$, or $$$.
  * @apiParam {Boolean} [open_now] Default to false. When set to true, only return the businesses open now.
  * @apiParam {String} [sort_by] Suggestion to the search algorithm that the results be sorted by one of the these modes: best_match, rating, review_count or distance. The default is best_match.
  * @apiParam {Integer} [limit] Number of business results to return. By default, it will return 20. Maximum is 50.
  * @apiParam {Integer} [offset] Offset the list of returned business results by this amount.
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
  *    {
  *      "businesses": [
@@ -62,8 +62,7 @@ const { authenticator, searchBuilder, internalError } = require("../middleware/m
  *          },
  *          "phone": "+16612881002",
  *          "display_phone": "(661) 288-1002",
- *          "distance_miles": 2.82,
- *          "distance_kilometers": 4548
+ *          "distance": 2.82,
  *        }
  *      ]
  *    }

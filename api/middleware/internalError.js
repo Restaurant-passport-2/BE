@@ -4,6 +4,6 @@ module.exports = function internalError(err) {
       return { err };
     }
   }
-  //Fallback to generic when not in development mode
+  //Fallback to generic when not in development mode or if error is internally thrown (type error, undefineds, etc)
   return { error: "Server error." };
 };
