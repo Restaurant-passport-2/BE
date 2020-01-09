@@ -9,9 +9,8 @@
     "db:latest": "knex migrate:latest",
     "db:rollback": "knex migrate:rollback",
     "db:seed": "knex seed:run",
-    "test": "cross-env DATABASE_ENV=testing jest tests/database/ --watch --verbose",
     "test:e2e": "cross-env DATABASE_ENV=testing jest tests/e2e/ --watch --runInBand --verbose",
-    "test:cov": "cross-env DATABASE_ENV=testing jest --watch --verbose --runInBand --coverage"
+    "test:cov": "cross-env DATABASE_ENV=testing jest tests/e2e/ --watch --verbose --runInBand --coverage"
   },
   "jest": {
     "testEnvironment": "node"
