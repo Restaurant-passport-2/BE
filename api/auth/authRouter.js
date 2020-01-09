@@ -126,7 +126,7 @@ router.post("/login", validateLogin, function(req, res) {
  * @apiParam {String} zipcode Client's residence zipcode.
  *
  * @apiSuccessExample Success-Response
- *    HTTP/1.1 200 OK
+ *    HTTP/1.1 201 OK
   {
     "user": {
       "name": "Chuck Norris",
@@ -182,7 +182,7 @@ router.post("/signup", validateSignup, function(req, res) {
           const token = signToken({ sub: user_id });
 
           //Return user info and auth token
-          res.status(200).json({
+          res.status(201).json({
             user: {
               name: userInfo.name,
               username: userInfo.username,
