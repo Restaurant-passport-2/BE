@@ -16,7 +16,7 @@ const { authenticator, searchBuilder, internalError } = require("../middleware/m
  * @apiParam {Integer} [limit] Number of business results to return. By default, it will return 20. Maximum is 50.
  * @apiParam {Integer} [offset] Offset the list of returned business results by this amount.
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
  *    {
  *      "businesses": [
@@ -62,8 +62,7 @@ const { authenticator, searchBuilder, internalError } = require("../middleware/m
  *          },
  *          "phone": "+16612881002",
  *          "display_phone": "(661) 288-1002",
- *          "distance_miles": 2.82,
- *          "distance_kilometers": 4548
+ *          "distance": 2.82,
  *        }
  *      ]
  *    }
