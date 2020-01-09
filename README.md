@@ -4,6 +4,7 @@ Restaurant Passport is an app for people that want to log what restaurants they 
 This repository serves as the backend for the project. See the [Product Canvas](https://docs.google.com/document/d/1mw1DhTwas-AW_0jQtWr1EpigJKfQa2jW4-wGprVToLw/edit?usp=sharing) for more information.
 
 ## [API Documentation](https://restaurant-passport-apidocs.netlify.com/)
+
 API documentation generated with [ApiDoc](https://apidocjs.com/)
 
 ## Technologies used:
@@ -37,16 +38,18 @@ $ npm install
 ```
 
 ## Required environment variables
+
 These are required to get the server working after install:
-  NODE_ENV - production / development
-  PORT - For heroku deployment
-  DATABASE_ENV - testing / developing / production
-  DATABASE_URL - Production database connection string (used by heroku)
-  DATABASE_URL_DEV - development database connection string
-  DATABASE_URL_TEST - testing database connection string
-  JWT_SECRET - Key for encrypting JWTs
-  HASH_SALT_ROUNDS - Salt rounds for bcrypt hashes
-  YELP_API_KEY - Used by the /restaurants/search route
+
+- NODE_ENV - production / development
+- PORT - For heroku deployment
+- DATABASE_ENV - testing / developing / production
+- DATABASE_URL - Production database connection string (used by heroku)
+- DATABASE_URL_DEV - development database connection string
+- DATABASE_URL_TEST - testing database connection string
+- JWT_SECRET - Key for encrypting JWTs
+- HASH_SALT_ROUNDS - Salt rounds for bcrypt hashes
+- YELP_API_KEY - Used by the /restaurants/search route
 
 ## Running the server
 
