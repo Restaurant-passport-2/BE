@@ -4,9 +4,17 @@ const server = require("../../../server/server");
 
 const db = require("../../../database/dbConnection");
 
+beforeAll(async () => {
+  await db.seed.run();
+});
+
+afterAll(async () => {
+  await db.seed.run();
+  await db.destroy();
+});
+
 describe("Login/Signup routes", () => {
-  //* LOGIN ROUTE TESTS
-  describe("Login route", () => {
+  describe("POST /auth/login", () => {
     //? Does it return the correct status code for valid credentials?
     test("should return a 200 status code on success", async () => {
       const testUser = { username: "test", password: "test" };
@@ -83,11 +91,7 @@ describe("Login/Signup routes", () => {
   });
 
   //* SIGNUP ROUTE TESTS
-  describe("Signup route", () => {
-    beforeAll(async () => {
-      await db.seed.run();
-    });
-
+  describe("POST /auth/signup", () => {
     //? Does it return the correct status code for successful signup?
     test("should return a 201 status code on success", async () => {
       const newSignup = {
