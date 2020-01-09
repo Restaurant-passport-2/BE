@@ -50,6 +50,7 @@ These are required to get the server working after install:
 - JWT_SECRET - Key for encrypting JWTs
 - HASH_SALT_ROUNDS - Salt rounds for bcrypt hashes
 - YELP_API_KEY - Used by the /restaurants/search route
+- YELP_API_SEARCH - URL for the yelp business search endpoint
 
 ## Running the server
 
