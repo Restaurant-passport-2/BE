@@ -12,7 +12,7 @@ const Passport = require("../dbHelpers/Passport");
  * @apiParam {String} username Valid username associated with an account.
  * @apiParam {String} password Valid password associated with an account.
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
   {
     "user": {
@@ -125,7 +125,7 @@ router.post("/login", validateLogin, function(req, res) {
  * @apiParam {String} city User's city.
  * @apiParam {String} zipcode User's zipcode.
  *
- * @apiSuccessExample Success-Response:
+ * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
   {
     "user": {
@@ -146,6 +146,7 @@ router.post("/login", validateLogin, function(req, res) {
  *    {
  *      "error": "Please provide name, email, username, password, city, and zipcode"
  *    }
+ * 
  * @apiError (409 Conflict) {json} Conflict Account already exists.
  *
  * @apiErrorExample {json} 409 Error-Response
