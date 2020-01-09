@@ -114,16 +114,16 @@ router.post("/login", validateLogin, function(req, res) {
 });
 
 /**
- * @api {post} /auth/signup User signup
+ * @api {post} /auth/signup User Signup
  * @apiName PostSignup
  * @apiGroup Auth
  *
- * @apiParam {String} name User's full name.
- * @apiParam {String} email User's email.
- * @apiParam {String} username User's username.
- * @apiParam {String} password User's password.
- * @apiParam {String} city User's city.
- * @apiParam {String} zipcode User's zipcode.
+ * @apiParam {String} name Full name.
+ * @apiParam {String} email Valid email address.
+ * @apiParam {String} username Username.
+ * @apiParam {String} password Strong password.
+ * @apiParam {String} city Client's city of residence.
+ * @apiParam {String} zipcode Client's residence zipcode.
  *
  * @apiSuccessExample Success-Response
  *    HTTP/1.1 200 OK
