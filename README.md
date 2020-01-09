@@ -81,9 +81,6 @@ $ npm run db:seed
 # run endpoint tests
 $ npm run test:e2e
 
-# database tests
-$ npm run test
-
 # test coverage
 $ npm run test:cov
 ```
