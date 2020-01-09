@@ -10,7 +10,8 @@ const server = express();
 server.use(express.json());
 
 server.use(helmet());
-const whitelist = process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : [];
+const whitelist =
+  process.env.NODE_ENV === "development" ? ["http://localhost:3000"] : ["https://restaurant-passport-2.netlify.com"];
 const corsOptions = {
   origin: function(origin, callback) {
     //Check for whitelisted origin or self origin.
@@ -23,6 +24,7 @@ const corsOptions = {
 };
 
 server.use(cors(corsOptions));
+server.options("*", cors(corsOptions));
 
 server.use("/api", apiRouter);
 
